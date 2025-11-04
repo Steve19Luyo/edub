@@ -4,7 +4,7 @@
     <p class="mb-2">{{ $opportunity->description }}</p>
     <p class="text-gray-600 mb-2">Deadline: {{ $opportunity->deadline }}</p>
     <p class="text-gray-600 mb-4">Seats: {{ $opportunity->available_slots }}</p>
-    <p class="text-gray-600 mb-4">Organization: {{ $opportunity->organization->name ?? 'N/A' }}</p>
+    <p class="text-gray-600 mb-4">Organization: {{ $opportunity->organization->name ?? ($opportunity->organization->user->name ?? 'N/A') }}</p>
 
     @auth
         @if(auth()->user()->role === 'Youth')

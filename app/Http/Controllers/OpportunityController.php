@@ -18,9 +18,16 @@ class OpportunityController extends Controller
             abort(403, 'Unauthorized');
         }
 
-        $opportunities = Opportunity::where('organization_id', $user->id)
-            ->latest()
-            ->get();
+        // Get organization for this user
+        $organization = \App\Models\Organization::where('user_id', $user->id)->first();
+        
+        if (!$organization) {
+            $opportunities = collect([]);
+        } else {
+            $opportunities = Opportunity::where('organization_id', $organization->id)
+                ->latest()
+                ->get();
+        }
 
         return view('organization.dashboard', compact('opportunities'));
     }
@@ -41,8 +48,14 @@ class OpportunityController extends Controller
             'seats'       => 'required|integer|min:1',
         ]);
 
+        // Get or create organization record for this user
+        $organization = \App\Models\Organization::firstOrCreate(
+            ['user_id' => $user->id],
+            ['name' => $user->name, 'contact_email' => $user->email]
+        );
+
         Opportunity::create([
-            'organization_id' => $user->id,
+            'organization_id' => $organization->id,
             'title'           => $validated['title'],
             'description'     => $validated['description'],
             'deadline'        => $validated['deadline'],
@@ -56,12 +69,9 @@ class OpportunityController extends Controller
     public function list()
     {
         // Get opportunities from verified organizations
-        // Since organization_id references users table, we check User verified status
-        $opportunities = Opportunity::with('organization')
+        $opportunities = Opportunity::with(['organization', 'organization.user'])
             ->whereHas('organization', function ($q) {
-                // Check if the user (organization) is verified
-                // Note: This assumes users table has a verified column for organizations
-                $q->where('verified', true)->where('role', 'Organization');
+                $q->where('verified', true);
             })
             ->latest()
             ->get();
@@ -72,7 +82,7 @@ class OpportunityController extends Controller
     // View single opportunity
     public function show($id)
     {
-        $opportunity = Opportunity::with('organization')->findOrFail($id);
+        $opportunity = Opportunity::with(['organization', 'organization.user'])->findOrFail($id);
         return view('show', compact('opportunity'));
     }
 }

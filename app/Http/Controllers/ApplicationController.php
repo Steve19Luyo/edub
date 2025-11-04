@@ -40,11 +40,17 @@ class ApplicationController extends Controller
     public function applicants()
     {
         $user = Auth::user();
-        $applications = Application::with(['opportunity', 'youthProfile.user'])
-            ->whereHas('opportunity', function ($q) use ($user) {
-                $q->where('organization_id', $user->id);
-            })
-            ->get();
+        $organization = \App\Models\Organization::where('user_id', $user->id)->first();
+        
+        if (!$organization) {
+            $applications = collect([]);
+        } else {
+            $applications = Application::with(['opportunity', 'youthProfile.user'])
+                ->whereHas('opportunity', function ($q) use ($organization) {
+                    $q->where('organization_id', $organization->id);
+                })
+                ->get();
+        }
 
         return view('organization.applicants', compact('applications'));
     }
@@ -69,7 +75,7 @@ class ApplicationController extends Controller
         if (!$youthProfile) {
             $applications = collect([]);
         } else {
-            $applications = Application::with(['opportunity', 'opportunity.organization'])
+            $applications = Application::with(['opportunity', 'opportunity.organization', 'opportunity.organization.user'])
                 ->where('youth_profile_id', $youthProfile->id)
                 ->get();
         }

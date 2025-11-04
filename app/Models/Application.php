@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Opportunity;
+use App\Models\YouthProfile;
 
 class Application extends Model
 {
@@ -28,9 +30,9 @@ class Application extends Model
         return $this->belongsTo(YouthProfile::class);
     }
 
-    public function user()
+    // Access user through youthProfile relationship (helper method)
+    public function getUserAttribute()
     {
-        // Access user through youthProfile relationship
-        return $this->hasOneThrough(User::class, YouthProfile::class, 'id', 'id', 'youth_profile_id', 'user_id');
+        return $this->youthProfile ? $this->youthProfile->user : null;
     }
 }
