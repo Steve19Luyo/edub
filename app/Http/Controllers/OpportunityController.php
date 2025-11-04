@@ -46,7 +46,7 @@ class OpportunityController extends Controller
             'title'           => $validated['title'],
             'description'     => $validated['description'],
             'deadline'        => $validated['deadline'],
-            'seats'           => $validated['seats'],
+            'available_slots' => $validated['seats'],
         ]);
 
         return redirect()->back()->with('success', 'Opportunity created successfully!');
@@ -55,9 +55,13 @@ class OpportunityController extends Controller
     // Youth view: list all verified opportunities
     public function list()
     {
+        // Get opportunities from verified organizations
+        // Since organization_id references users table, we check User verified status
         $opportunities = Opportunity::with('organization')
             ->whereHas('organization', function ($q) {
-                $q->where('verified', true); // Only show verified organizations
+                // Check if the user (organization) is verified
+                // Note: This assumes users table has a verified column for organizations
+                $q->where('verified', true)->where('role', 'Organization');
             })
             ->latest()
             ->get();
@@ -69,6 +73,6 @@ class OpportunityController extends Controller
     public function show($id)
     {
         $opportunity = Opportunity::with('organization')->findOrFail($id);
-        return view('opportunities.show', compact('opportunity'));
+        return view('show', compact('opportunity'));
     }
 }

@@ -56,9 +56,7 @@ Route::middleware(['auth', 'role:Youth'])->group(function () {
 Route::middleware(['auth', 'role:Admin'])->group(function () {
 
     // Dashboard
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard')
-             ->middleware(['auth'])
-             ->name('admin.dashboard');
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     // Verify or revoke organizations
     Route::post('/admin/verify/{id}', [AdminController::class, 'verifyOrg'])->name('admin.verify');
     Route::post('/admin/revoke/{id}', [AdminController::class, 'revokeOrg'])->name('admin.revoke');

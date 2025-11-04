@@ -43,7 +43,7 @@ class OrganizationController extends Controller
             ->where('id', $id)
             ->firstOrFail();
 
-        $applications = Application::with('user')
+        $applications = Application::with(['youthProfile.user'])
             ->where('opportunity_id', $opportunity->id)
             ->get();
 

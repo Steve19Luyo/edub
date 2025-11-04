@@ -64,6 +64,12 @@ class YouthProfileController extends Controller
             'location' => 'nullable|string|max:100',
         ]);
 
+        // Convert skills string to array if provided
+        if (isset($validated['skills']) && is_string($validated['skills'])) {
+            $skillsArray = array_map('trim', explode(',', $validated['skills']));
+            $validated['skills'] = array_filter($skillsArray); // Remove empty values
+        }
+
         $profile = YouthProfile::updateOrCreate(
             ['user_id' => $user->id],
             $validated
