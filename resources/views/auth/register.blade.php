@@ -39,8 +39,31 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+        <!-- Role Selection -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('I want to register as')" />
+            <div class="mt-2 space-y-2">
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-pink-500 transition-colors">
+                    <input type="radio" name="role" value="Youth" class="text-pink-500 focus:ring-pink-500" checked>
+                    <span class="ml-3 text-gray-700 font-medium">Youth</span>
+                    <span class="ml-auto text-sm text-gray-500">Seek opportunities</span>
+                </label>
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                    <input type="radio" name="role" value="Organization" class="text-blue-500 focus:ring-blue-500">
+                    <span class="ml-3 text-gray-700 font-medium">Organization</span>
+                    <span class="ml-auto text-sm text-gray-500">Post opportunities</span>
+                </label>
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-purple-500 transition-colors">
+                    <input type="radio" name="role" value="Admin" class="text-purple-500 focus:ring-purple-500">
+                    <span class="ml-3 text-gray-700 font-medium">Admin</span>
+                    <span class="ml-auto text-sm text-gray-500">Manage platform</span>
+                </label>
+            </div>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
+
+        <div class="flex items-center justify-end mt-6">
+            <a class="underline text-sm text-edubridge-blue hover:text-edubridge-pink font-medium transition-colors" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
