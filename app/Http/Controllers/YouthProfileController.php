@@ -19,8 +19,11 @@ class YouthProfileController extends Controller
             abort(403, 'Unauthorized access');
         }
 
-        // Get or create a blank profile for this user
-        $profile = YouthProfile::firstOrCreate(['user_id' => $user->id]);
+        // Get or create a profile, set full_name to user's name if new
+        $profile = YouthProfile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['full_name' => $user->name]
+        );
 
         return view('youth.profile', compact('user', 'profile'));
     }
@@ -36,7 +39,11 @@ class YouthProfileController extends Controller
             abort(403, 'Unauthorized access');
         }
 
-        $profile = YouthProfile::firstOrCreate(['user_id' => $user->id]);
+        // Get or create a profile, set full_name to user's name if new
+        $profile = YouthProfile::firstOrCreate(
+            ['user_id' => $user->id],
+            ['full_name' => $user->name]
+        );
 
         return view('youth.edit-profile', compact('user', 'profile'));
     }
