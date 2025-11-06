@@ -67,14 +67,14 @@
                                                 </td>
                                                 <td class="p-3 text-center">
                                                     @if(!$org->verified)
-                                                        <form action="{{ route('admin.verifyOrg', $org->id) }}" method="POST" class="inline">
+                                                        <form action="{{ route('admin.verify', $org->id) }}" method="POST" class="inline">
                                                             @csrf
                                                             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
                                                                 Verify
                                                             </button>
                                                         </form>
                                                     @else
-                                                        <form action="{{ route('admin.revokeOrg', $org->id) }}" method="POST" class="inline">
+                                                        <form action="{{ route('admin.revoke', $org->id) }}" method="POST" class="inline">
                                                             @csrf
                                                             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
                                                                 Revoke
