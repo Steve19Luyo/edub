@@ -72,6 +72,12 @@ class OrganizationController extends Controller
         $application = Application::findOrFail($id);
 
         $opportunity = $application->opportunity;
+        
+        // Ensure opportunity exists
+        if (!$opportunity) {
+            abort(404, 'Opportunity not found');
+        }
+        
         $organization = \App\Models\Organization::where('user_id', Auth::id())->first();
 
         if (!$organization || $opportunity->organization_id !== $organization->id) {

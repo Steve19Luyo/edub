@@ -25,11 +25,45 @@ class ApplicationController extends Controller
             return redirect()->back()->with('error', 'This opportunity is not available.');
         }
 
-        // Get or create youth profile
-        $youthProfile = \App\Models\YouthProfile::firstOrCreate(['user_id' => $user->id]);
+        // Ensure opportunity is published
+        if ($opportunity->status !== 'published') {
+            return redirect()->back()->with('error', 'This opportunity is not currently available.');
+        }
 
-        // Get or create youth profile
+        // Check eligibility criteria if set
         $youthProfile = \App\Models\YouthProfile::firstOrCreate(['user_id' => $user->id]);
+        
+        // Check age eligibility
+        if ($opportunity->min_age || $opportunity->max_age) {
+            if (!$youthProfile->birth_date) {
+                return redirect()->back()->with('error', 'Please update your profile with your birth date to apply for this opportunity.');
+            }
+            $age = now()->diffInYears($youthProfile->birth_date);
+            if (($opportunity->min_age && $age < $opportunity->min_age) || 
+                ($opportunity->max_age && $age > $opportunity->max_age)) {
+                return redirect()->back()->with('error', 'You do not meet the age requirements for this opportunity.');
+            }
+        }
+
+        // Check education level eligibility
+        if ($opportunity->required_education_level && $youthProfile->education_level !== $opportunity->required_education_level) {
+            return redirect()->back()->with('error', 'You do not meet the education level requirement for this opportunity.');
+        }
+
+        // Check skills eligibility
+        if ($opportunity->required_skills && is_array($opportunity->required_skills) && !empty($opportunity->required_skills)) {
+            $userSkills = is_array($youthProfile->skills) ? $youthProfile->skills : [];
+            $requiredSkills = array_map('strtolower', $opportunity->required_skills);
+            $userSkillsLower = array_map('strtolower', $userSkills);
+            $hasRequiredSkills = !empty(array_intersect($requiredSkills, $userSkillsLower));
+            
+            if (!$hasRequiredSkills) {
+                return redirect()->back()->with('error', 'You do not have the required skills for this opportunity.');
+            }
+        }
+
+        // Get or create youth profile (already done above, but keeping for clarity)
+        // $youthProfile already created above
 
         // Prevent duplicate application
         $exists = Application::where('opportunity_id', $id)

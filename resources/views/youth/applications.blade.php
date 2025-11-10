@@ -16,28 +16,20 @@
             </a>
         </div>
     @else
-        <table class="w-full border-collapse">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="border p-2 text-left">Opportunity</th>
-                    <th class="border p-2 text-left">Organization</th>
-                    <th class="border p-2 text-left">Status</th>
-                    <th class="border p-2 text-left">Deadline</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($applications as $app)
-                    <tr class="hover:bg-gray-100">
-                        <td class="border p-2">{{ $app->opportunity->title }}</td>
-                        <td class="border p-2">{{ $app->opportunity->organization->name ?? ($app->opportunity->organization->user->name ?? 'N/A') }}</td>
-                        <td class="border p-2">{{ $app->status }}</td>
-                        <td class="border p-2">{{ $app->opportunity->deadline }}</td>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-gray-200">
+                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-sm font-semibold">Opportunity</th>
+                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-sm font-semibold">Organization</th>
+                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-sm font-semibold">Status</th>
+                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-sm font-semibold">Deadline</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach($applications as $app)
                         <tr class="hover:bg-blue-50/50 transition-colors">
-                            <td class="border border-gray-200 p-2 sm:p-3 font-medium text-sm">{{ $app->opportunity->title }}</td>
+                            <td class="border border-gray-200 p-2 sm:p-3 font-medium text-sm">{{ $app->opportunity->title ?? 'N/A' }}</td>
                             <td class="border border-gray-200 p-2 sm:p-3 text-gray-600 text-sm">{{ $app->opportunity->organization->name ?? ($app->opportunity->organization->user->name ?? 'N/A') }}</td>
                             <td class="border border-gray-200 p-2 sm:p-3">
                                 <span class="px-2 sm:px-3 py-1 rounded-full text-xs font-semibold 
@@ -45,10 +37,16 @@
                                     @elseif($app->status === 'Rejected') bg-red-100 text-red-800
                                     @else bg-yellow-100 text-yellow-800
                                     @endif">
-                                    {{ $app->status }}
+                                    {{ $app->status ?? 'Pending' }}
                                 </span>
                             </td>
-                            <td class="border border-gray-200 p-2 sm:p-3 text-gray-600 text-sm">{{ \Carbon\Carbon::parse($app->opportunity->deadline)->format('M d, Y') }}</td>
+                            <td class="border border-gray-200 p-2 sm:p-3 text-gray-600 text-sm">
+                                @if($app->opportunity && $app->opportunity->deadline)
+                                    {{ \Carbon\Carbon::parse($app->opportunity->deadline)->format('M d, Y') }}
+                                @else
+                                    N/A
+                                @endif
+                            </td>
                         </tr>
                     @endforeach
                 </tbody>
