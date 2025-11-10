@@ -41,35 +41,19 @@
     </div>
 
     {{-- List of Organization Opportunities --}}
-    <div>
-        <h2 class="text-xl font-semibold mb-4">Your Opportunities</h2>
-        @if($opportunities->isEmpty())
-            <div class="card text-center py-8">
-                <p class="text-gray-500">You haven't created any opportunities yet.</p>
-            </div>
-        @else
-            <div class="grid grid-cols-1 gap-4">
-                @foreach($opportunities as $opp)
-                    <div class="card">
-                        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-4">
-                            <div class="flex-1">
-                                <h3 class="font-semibold text-base sm:text-lg mb-2">{{ $opp->title }}</h3>
-                                <p class="text-sm sm:text-base text-gray-600 mb-2">{{ Str::limit($opp->description, 150) }}</p>
-                                <div class="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-gray-500">
-                                    <span>Deadline: {{ \Carbon\Carbon::parse($opp->deadline)->format('M d, Y') }}</span>
-                                    <span>Seats: {{ $opp->available_slots }}</span>
-                                    <span>Applications: {{ $opp->applications_count ?? 0 }}</span>
-                                </div>
-                            </div>
-                            <div class="sm:ml-4 flex-shrink-0">
-                                <a href="{{ route('organization.applicants', $opp->id) }}" class="btn-primary text-xs sm:text-sm px-3 sm:px-4 py-2 block text-center sm:inline-block">
-                                    View Applicants
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        @endif
-    </div>
+    <h2 class="text-xl font-semibold mb-2">Your Opportunities</h2>
+    @if($opportunities->isEmpty())
+        <p>You haven't created any opportunities yet.</p>
+    @else
+        <ul>
+            @foreach($opportunities as $opp)
+                <li class="border p-4 mb-2 rounded">
+                    <h3 class="font-semibold text-lg">{{ $opp->title }}</h3>
+                    <p>{{ $opp->description }}</p>
+                    <p class="text-gray-600">Deadline: {{ $opp->deadline }} | Seats: {{ $opp->available_slots }}</p>
+                    <a href="{{ route('organization.applicants', $opp->id) }}" class="text-blue-500">View Applicants</a>
+                </li>
+            @endforeach
+        </ul>
+    @endif
 </x-app-layout>

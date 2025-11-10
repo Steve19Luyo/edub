@@ -9,14 +9,32 @@
             <p class="text-gray-500">No applicants yet.</p>
         </div>
     @else
-        <div class="card overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Name</th>
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Email</th>
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Status</th>
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Update Status</th>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border p-2 text-left">Name</th>
+                    <th class="border p-2 text-left">Email</th>
+                    <th class="border p-2 text-left">Status</th>
+                    <th class="border p-2 text-left">Update Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($applications as $app)
+                    <tr class="hover:bg-gray-100">
+                        <td class="border p-2">{{ $app->youthProfile->user->name ?? 'N/A' }}</td>
+                        <td class="border p-2">{{ $app->youthProfile->user->email ?? 'N/A' }}</td>
+                        <td class="border p-2">{{ $app->status }}</td>
+                        <td class="border p-2">
+                            <form method="POST" action="{{ route('organization.application.status', $app->id) }}">
+                                @csrf
+                                <select name="status" class="border p-1 rounded">
+                                    <option value="Pending" {{ $app->status=='Pending' ? 'selected' : '' }}>Pending</option>
+                                    <option value="Accepted" {{ $app->status=='Accepted' ? 'selected' : '' }}>Accepted</option>
+                                    <option value="Rejected" {{ $app->status=='Rejected' ? 'selected' : '' }}>Rejected</option>
+                                </select>
+                                <button type="submit" class="bg-blue-500 text-white px-2 py-1 rounded mt-1">Update</button>
+                            </form>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>

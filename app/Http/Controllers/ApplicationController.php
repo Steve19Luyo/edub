@@ -28,6 +28,9 @@ class ApplicationController extends Controller
         // Get or create youth profile
         $youthProfile = \App\Models\YouthProfile::firstOrCreate(['user_id' => $user->id]);
 
+        // Get or create youth profile
+        $youthProfile = \App\Models\YouthProfile::firstOrCreate(['user_id' => $user->id]);
+
         // Prevent duplicate application
         $exists = Application::where('opportunity_id', $id)
             ->where('youth_profile_id', $youthProfile->id)

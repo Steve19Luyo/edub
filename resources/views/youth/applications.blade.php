@@ -16,14 +16,22 @@
             </a>
         </div>
     @else
-        <div class="card overflow-x-auto">
-            <table class="w-full border-collapse">
-                <thead>
-                    <tr class="bg-gray-50">
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Opportunity</th>
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Organization</th>
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Status</th>
-                        <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Deadline</th>
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-200">
+                    <th class="border p-2 text-left">Opportunity</th>
+                    <th class="border p-2 text-left">Organization</th>
+                    <th class="border p-2 text-left">Status</th>
+                    <th class="border p-2 text-left">Deadline</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($applications as $app)
+                    <tr class="hover:bg-gray-100">
+                        <td class="border p-2">{{ $app->opportunity->title }}</td>
+                        <td class="border p-2">{{ $app->opportunity->organization->name ?? ($app->opportunity->organization->user->name ?? 'N/A') }}</td>
+                        <td class="border p-2">{{ $app->status }}</td>
+                        <td class="border p-2">{{ $app->opportunity->deadline }}</td>
                     </tr>
                 </thead>
                 <tbody>

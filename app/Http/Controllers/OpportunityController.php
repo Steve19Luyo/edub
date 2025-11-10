@@ -69,10 +69,9 @@ class OpportunityController extends Controller
     public function list()
     {
         // Get opportunities from verified organizations
-        // Check verification via User model (since AdminController sets verified on User)
         $opportunities = Opportunity::with(['organization', 'organization.user'])
-            ->whereHas('organization.user', function ($q) {
-                $q->where('verified', true)->where('role', 'Organization');
+            ->whereHas('organization', function ($q) {
+                $q->where('verified', true);
             })
             ->latest()
             ->get();
