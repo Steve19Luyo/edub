@@ -65,7 +65,14 @@
         <!-- Organization Fields (Conditional) -->
         <template x-if="selectedRole === 'Organization' || selectedRole === 'Admin'">
             <div class="mt-6 p-6 border border-blue-200 rounded-lg bg-blue-50/50 space-y-4">
-                <h3 class="text-lg font-semibold text-blue-700 mb-4">Organization Details</h3>
+                <div class="mb-4">
+                    <h3 class="text-lg font-semibold text-blue-700 mb-2" x-text="selectedRole === 'Admin' ? 'Admin Organization Details' : 'Organization Details'"></h3>
+                    <div x-show="selectedRole === 'Admin'" class="p-3 bg-blue-100 border border-blue-300 rounded-lg">
+                        <p class="text-sm text-blue-800">
+                            <strong>Note:</strong> As an Admin, you need to provide organization details. Your organization will be automatically verified upon registration.
+                        </p>
+                    </div>
+                </div>
                 <div>
                     <x-input-label for="organization_name" :value="__('Organization Name')" />
                     <x-text-input id="organization_name" name="organization_name" type="text" class="mt-1 block w-full" :value="old('organization_name')" required autocomplete="organization-name" />
