@@ -15,19 +15,6 @@ export default {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
             },
             colors: {
-                'hot-pink': {
-                    50: '#fef1f8',
-                    100: '#fde6f2',
-                    200: '#fccee5',
-                    300: '#faa5d0',
-                    400: '#f76cb4',
-                    500: '#f0479a',
-                    600: '#e0287d',
-                    700: '#c41964',
-                    800: '#a31853',
-                    900: '#881948',
-                    950: '#530928',
-                },
                 'light-blue': {
                     50: '#f0f9ff',
                     100: '#e0f2fe',
@@ -41,11 +28,10 @@ export default {
                     900: '#0c4a6e',
                     950: '#082f49',
                 },
-                'edubridge': {
-                    'pink': '#FF1493',
-                    'blue': '#87CEEB',
-                    'pink-light': '#FF69B4',
-                    'blue-light': '#ADD8E6',
+                'primary': {
+                    'blue': '#0ea5e9',
+                    'blue-light': '#38bdf8',
+                    'blue-dark': '#0284c7',
                 },
             },
         },

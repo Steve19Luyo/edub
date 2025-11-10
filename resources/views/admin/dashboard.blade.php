@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="mb-8">
-        <h1 class="text-4xl font-bold mb-2 gradient-text">Admin Dashboard</h1>
-        <p class="text-gray-600">Manage organizations and monitor platform activity</p>
+        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-blue-600">Admin Dashboard</h1>
+        <p class="text-sm sm:text-base text-gray-600">Manage organizations and monitor platform activity</p>
     </div>
 
     {{-- Flash Success Message --}}
@@ -18,7 +18,7 @@
 
     {{-- Flash Error Message --}}
     @if(session('error'))
-        <div class="bg-gradient-to-r from-red-100 to-pink-100 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-lg shadow-md">
+        <div class="bg-gradient-to-r from-red-100 to-red-50 border-l-4 border-red-500 text-red-800 p-4 mb-6 rounded-lg shadow-md">
             <div class="flex items-center">
                 <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
                     <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
@@ -31,7 +31,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {{-- Organizations Table --}}
         <div class="card overflow-hidden">
-            <div class="bg-gradient-to-r from-edubridge-blue to-edubridge-blue-light text-white px-6 py-4 font-semibold text-lg">
+            <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 font-semibold text-lg">
                 Registered Organizations
             </div>
             <div class="p-6">
@@ -42,19 +42,19 @@
                         <table class="w-full border-collapse">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">#</th>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">Name</th>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">Email</th>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">Status</th>
-                                    <th class="border border-gray-200 p-3 text-center text-sm font-semibold text-gray-700">Action</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">#</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Name</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Email</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Status</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-center text-xs sm:text-sm font-semibold text-gray-700">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($organizations as $index => $org)
-                                    <tr class="hover:bg-pink-50/50 transition-colors">
-                                        <td class="border border-gray-200 p-3">{{ $index + 1 }}</td>
-                                        <td class="border border-gray-200 p-3 font-medium">{{ $org->name }}</td>
-                                        <td class="border border-gray-200 p-3 text-gray-600">{{ $org->email }}</td>
+                                    <tr class="hover:bg-blue-50/50 transition-colors">
+                                        <td class="border border-gray-200 p-2 sm:p-3">{{ $index + 1 }}</td>
+                                        <td class="border border-gray-200 p-2 sm:p-3 font-medium text-sm">{{ $org->name }}</td>
+                                        <td class="border border-gray-200 p-2 sm:p-3 text-gray-600 text-sm break-words">{{ $org->email }}</td>
                                         <td class="border border-gray-200 p-3">
                                             @if($org->verified)
                                                 <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-800">
@@ -72,18 +72,18 @@
                                                 </span>
                                             @endif
                                         </td>
-                                        <td class="border border-gray-200 p-3 text-center">
+                                        <td class="border border-gray-200 p-2 sm:p-3 text-center">
                                             @if(!$org->verified)
                                                 <form action="{{ route('admin.verifyOrg', $org->id) }}" method="POST" class="inline">
                                                     @csrf
-                                                    <button type="submit" class="btn-primary text-sm px-4 py-2">
+                                                    <button type="submit" class="btn-primary text-xs sm:text-sm px-2 sm:px-4 py-1 sm:py-2 whitespace-nowrap">
                                                         Verify
                                                     </button>
                                                 </form>
                                             @else
                                                 <form action="{{ route('admin.revokeOrg', $org->id) }}" method="POST" class="inline">
                                                     @csrf
-                                                    <button type="submit" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-200">
+                                                    <button type="submit" class="bg-gradient-to-r from-red-500 to-red-600 text-white px-2 sm:px-4 py-1 sm:py-2 rounded-lg text-xs sm:text-sm font-semibold shadow-md hover:shadow-lg transition-all duration-200 whitespace-nowrap">
                                                         Revoke
                                                     </button>
                                                 </form>
@@ -100,7 +100,7 @@
 
         {{-- Youth Table --}}
         <div class="card overflow-hidden">
-            <div class="bg-gradient-to-r from-edubridge-pink to-edubridge-pink-light text-white px-6 py-4 font-semibold text-lg">
+            <div class="bg-gradient-to-r from-blue-400 to-blue-500 text-white px-6 py-4 font-semibold text-lg">
                 Registered Youth
             </div>
             <div class="p-6">
@@ -111,17 +111,17 @@
                         <table class="w-full border-collapse">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">#</th>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">Name</th>
-                                    <th class="border border-gray-200 p-3 text-left text-sm font-semibold text-gray-700">Email</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">#</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Name</th>
+                                    <th class="border border-gray-200 p-2 sm:p-3 text-left text-xs sm:text-sm font-semibold text-gray-700">Email</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach($youth as $index => $user)
                                     <tr class="hover:bg-blue-50/50 transition-colors">
-                                        <td class="border border-gray-200 p-3">{{ $index + 1 }}</td>
-                                        <td class="border border-gray-200 p-3 font-medium">{{ $user->name }}</td>
-                                        <td class="border border-gray-200 p-3 text-gray-600">{{ $user->email }}</td>
+                                        <td class="border border-gray-200 p-2 sm:p-3">{{ $index + 1 }}</td>
+                                        <td class="border border-gray-200 p-2 sm:p-3 font-medium text-sm">{{ $user->name }}</td>
+                                        <td class="border border-gray-200 p-2 sm:p-3 text-gray-600 text-sm break-words">{{ $user->email }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
