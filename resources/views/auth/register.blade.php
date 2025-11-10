@@ -1,75 +1,120 @@
 <x-guest-layout>
-    <div class="max-w-md mx-auto bg-white/70 dark:bg-gray-900/60 backdrop-blur-xl p-8 rounded-2xl shadow-xl border border-white/10">
-        <h2 class="text-3xl font-bold text-center text-edubridge-blue mb-6">
-            {{ __('Create Your EduBridge Account') }}
-        </h2>
+    <form method="POST" action="{{ route('register') }}" x-data="{ selectedRole: '{{ old('role', 'Youth') }}' }">
+        @csrf
 
-        <form method="POST" action="{{ route('register') }}">
-            @csrf
+        <!-- Name -->
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        </div>
 
-            <!-- Name -->
-            <div>
-                <x-input-label for="name" :value="__('Full Name')" />
-                <x-text-input id="name" class="block mt-1 w-full rounded-xl border-gray-300 focus:border-edubridge-blue focus:ring-edubridge-blue" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-                <x-input-error :messages="$errors->get('name')" class="mt-2" />
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Email Address')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+
+            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            type="password"
+                            name="password_confirmation" required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <!-- Role Selection -->
+        <div class="mt-4">
+            <x-input-label for="role" :value="__('I want to register as')" />
+            <div class="mt-2 space-y-2">
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-500 transition-colors">
+                    <input type="radio" name="role" value="Youth" class="text-blue-500 focus:ring-blue-500" x-model="selectedRole" checked>
+                    <span class="ml-3 text-gray-700 font-medium">Youth</span>
+                    <span class="ml-auto text-sm text-gray-500">Seek opportunities</span>
+                </label>
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-400 transition-colors">
+                    <input type="radio" name="role" value="Organization" class="text-blue-500 focus:ring-blue-500" x-model="selectedRole">
+                    <span class="ml-3 text-gray-700 font-medium">Organization</span>
+                    <span class="ml-auto text-sm text-gray-500">Post opportunities</span>
+                </label>
+                <label class="flex items-center p-3 border-2 border-gray-300 rounded-lg cursor-pointer hover:border-blue-600 transition-colors">
+                    <input type="radio" name="role" value="Admin" class="text-blue-600 focus:ring-blue-600" x-model="selectedRole">
+                    <span class="ml-3 text-gray-700 font-medium">Admin</span>
+                    <span class="ml-auto text-sm text-gray-500">Manage platform</span>
+                </label>
             </div>
+            <x-input-error :messages="$errors->get('role')" class="mt-2" />
+        </div>
 
-            <!-- Email -->
-            <div class="mt-4">
-                <x-input-label for="email" :value="__('Email Address')" />
-                <x-text-input id="email" class="block mt-1 w-full rounded-xl border-gray-300 focus:border-edubridge-blue focus:ring-edubridge-blue" type="email" name="email" :value="old('email')" required autocomplete="username" />
-                <x-input-error :messages="$errors->get('email')" class="mt-2" />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-input-label for="password" :value="__('Password')" />
-                <x-text-input id="password" class="block mt-1 w-full rounded-xl border-gray-300 focus:border-edubridge-pink focus:ring-edubridge-pink" type="password" name="password" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password')" class="mt-2" />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-                <x-text-input id="password_confirmation" class="block mt-1 w-full rounded-xl border-gray-300 focus:border-edubridge-pink focus:ring-edubridge-pink" type="password" name="password_confirmation" required autocomplete="new-password" />
-                <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-            </div>
-
-            <!-- Role Selection -->
-            <div class="mt-6">
-                <x-input-label for="role" :value="__('Register as')" />
-                <div class="mt-3 space-y-3">
-                    <label class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:border-edubridge-pink hover:bg-edubridge-pink/5 transition">
-                        <input type="radio" name="role" value="Youth" class="text-edubridge-pink focus:ring-edubridge-pink" checked>
-                        <span class="ml-3 text-gray-700 font-semibold">Youth</span>
-                        <span class="ml-auto text-xs text-gray-500 italic">Find Opportunities</span>
-                    </label>
-
-                    <label class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:border-edubridge-blue hover:bg-edubridge-blue/5 transition">
-                        <input type="radio" name="role" value="Organization" class="text-edubridge-blue focus:ring-edubridge-blue">
-                        <span class="ml-3 text-gray-700 font-semibold">Organization</span>
-                        <span class="ml-auto text-xs text-gray-500 italic">Post Opportunities</span>
-                    </label>
-
-                    <label class="flex items-center p-4 border border-gray-300 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-purple-500/5 transition">
-                        <input type="radio" name="role" value="Admin" class="text-purple-500 focus:ring-purple-500">
-                        <span class="ml-3 text-gray-700 font-semibold">Admin</span>
-                        <span class="ml-auto text-xs text-gray-500 italic">Manage Platform</span>
-                    </label>
+        <!-- Organization Fields (Conditional) -->
+        <template x-if="selectedRole === 'Organization' || selectedRole === 'Admin'">
+            <div class="mt-6 p-6 border border-blue-200 rounded-lg bg-blue-50/50 space-y-4">
+                <h3 class="text-lg font-semibold text-blue-700 mb-4">Organization Details</h3>
+                <div>
+                    <x-input-label for="organization_name" :value="__('Organization Name')" />
+                    <x-text-input id="organization_name" name="organization_name" type="text" class="mt-1 block w-full" :value="old('organization_name')" required autocomplete="organization-name" />
+                    <x-input-error :messages="$errors->get('organization_name')" class="mt-2" />
                 </div>
-                <x-input-error :messages="$errors->get('role')" class="mt-2" />
+                <div>
+                    <x-input-label for="contact_email" :value="__('Organization Contact Email')" />
+                    <x-text-input id="contact_email" name="contact_email" type="email" class="mt-1 block w-full" :value="old('contact_email')" required autocomplete="organization-email" />
+                    <x-input-error :messages="$errors->get('contact_email')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="organization_type" :value="__('Organization Type')" />
+                    <select id="organization_type" name="organization_type" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <option value="">Select Type</option>
+                        <option value="NGO" {{ old('organization_type') == 'NGO' ? 'selected' : '' }}>NGO</option>
+                        <option value="Company" {{ old('organization_type') == 'Company' ? 'selected' : '' }}>Company</option>
+                        <option value="Training Center" {{ old('organization_type') == 'Training Center' ? 'selected' : '' }}>Training Center</option>
+                        <option value="Educational Institution" {{ old('organization_type') == 'Educational Institution' ? 'selected' : '' }}>Educational Institution</option>
+                        <option value="Government Agency" {{ old('organization_type') == 'Government Agency' ? 'selected' : '' }}>Government Agency</option>
+                        <option value="Other" {{ old('organization_type') == 'Other' ? 'selected' : '' }}>Other</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('organization_type')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="contact_phone" :value="__('Contact Phone (Optional)')" />
+                    <x-text-input id="contact_phone" name="contact_phone" type="text" class="mt-1 block w-full" :value="old('contact_phone')" autocomplete="tel" />
+                    <x-input-error :messages="$errors->get('contact_phone')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="location" :value="__('Location (Optional)')" />
+                    <x-text-input id="location" name="location" type="text" class="mt-1 block w-full" :value="old('location')" autocomplete="address-level2" />
+                    <x-input-error :messages="$errors->get('location')" class="mt-2" />
+                </div>
+                <div>
+                    <x-input-label for="organization_description" :value="__('Organization Description (Optional)')" />
+                    <textarea id="organization_description" name="organization_description" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500">{{ old('organization_description') }}</textarea>
+                    <x-input-error :messages="$errors->get('organization_description')" class="mt-2" />
+                </div>
             </div>
+        </template>
 
-            <!-- Register Button -->
-            <div class="flex items-center justify-between mt-8">
-                <a href="{{ route('login') }}" class="text-sm text-edubridge-blue hover:text-edubridge-pink font-medium transition">
-                    {{ __('Already registered? Log in') }}
-                </a>
+        <div class="flex items-center justify-end mt-6">
+            <a class="underline text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors" href="{{ route('login') }}">
+                {{ __('Already registered?') }}
+            </a>
 
-                <x-primary-button class="bg-gradient-to-r from-edubridge-blue to-edubridge-pink hover:from-edubridge-pink hover:to-edubridge-blue text-white font-semibold px-6 py-2 rounded-xl shadow-lg transition-all duration-300">
-                    {{ __('Register') }}
-                </x-primary-button>
-            </div>
-        </form>
-    </div>
+            <x-primary-button class="ms-4">
+                {{ __('Register') }}
+            </x-primary-button>
+        </div>
+    </form>
 </x-guest-layout>
