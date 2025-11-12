@@ -20,6 +20,12 @@ class Opportunity extends Model
         'duration_weeks',
         'available_slots',
         'approved',
+        'min_age',
+        'max_age',
+        'required_education_level',
+        'required_skills',
+        'preferred_location',
+        'status',
     ];
 
     protected $casts = [
@@ -27,6 +33,7 @@ class Opportunity extends Model
         'end_date' => 'date',
         'deadline' => 'date',
         'approved' => 'boolean',
+        'required_skills' => 'array',
     ];
 
     public function organization()
