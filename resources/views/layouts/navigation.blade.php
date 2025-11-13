@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white/90 backdrop-blur-md border-b-2 border-edubridge-pink shadow-lg">
+<nav x-data="{ open: false }" class="bg-white border-b-2 border-blue-200 shadow-lg">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-20">
@@ -6,8 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
-                        <x-edubridge-logo class="h-12 w-auto group-hover:scale-105 transition-transform duration-200" />
-                        <span class="text-2xl font-bold gradient-text hidden sm:block">EduBridge</span>
+                        <span class="text-2xl font-bold text-blue-600 group-hover:text-blue-700 transition-colors">EduBridge</span>
                     </a>
                 </div>
 
@@ -39,7 +38,7 @@
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-edubridge-pink to-edubridge-pink-light text-white text-sm leading-4 font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none transition ease-in-out duration-150 transform hover:-translate-y-0.5">
+                        <button class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm leading-4 font-semibold rounded-lg shadow-md hover:shadow-lg focus:outline-none transition ease-in-out duration-150 transform hover:-translate-y-0.5">
                             <div>{{ Auth::user()->name }}</div>
                             <span class="ml-2 text-xs bg-white/20 px-2 py-1 rounded-full">{{ Auth::user()->role }}</span>
 
@@ -88,6 +87,22 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->role === 'Youth')
+                <x-responsive-nav-link :href="route('opportunities.list')" :active="request()->routeIs('opportunities.*')">
+                    Opportunities
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('applications.my')" :active="request()->routeIs('applications.*')">
+                    My Applications
+                </x-responsive-nav-link>
+            @elseif(Auth::user()->role === 'Organization')
+                <x-responsive-nav-link :href="route('organization.dashboard')" :active="request()->routeIs('organization.*')">
+                    My Opportunities
+                </x-responsive-nav-link>
+            @elseif(Auth::user()->role === 'Admin')
+                <x-responsive-nav-link :href="route('admin.dashboard')" :active="request()->routeIs('admin.*')">
+                    Admin Panel
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -95,6 +110,7 @@
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-gray-200">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-xs text-blue-600 mt-1">{{ Auth::user()->role }}</div>
             </div>
 
             <div class="mt-3 space-y-1">

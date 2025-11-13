@@ -14,11 +14,14 @@ class Organization extends Model
         'contact_phone',
         'location',
         'description',
+        'bio',
+        'skills',
         'verified',
     ];
 
     protected $casts = [
         'verified' => 'boolean',
+        'skills' => 'array',
     ];
 
     public function user()
@@ -28,6 +31,6 @@ class Organization extends Model
 
     public function opportunities()
     {
-        return $this->hasMany(Opportunity::class, 'organization_id', 'user_id');
+        return $this->hasMany(Opportunity::class, 'organization_id', 'id');
     }
 }

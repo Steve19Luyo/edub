@@ -23,10 +23,6 @@ class User extends Authenticatable
         'password',
         'role',
         'verified',
-        'organization_name',
-        'description',
-        'bio',
-        'skills',
     ];
 
     /**
@@ -51,9 +47,19 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    public function youthProfile()
-{
-    return $this->hasOne(YouthProfile::class);
-}
 
+    public function youthProfile()
+    {
+        return $this->hasOne(YouthProfile::class);
+    }
+
+    public function organization()
+    {
+        return $this->hasOne(Organization::class);
+    }
+
+    public function documents()
+    {
+        return $this->hasMany(Document::class);
+    }
 }
