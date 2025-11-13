@@ -6,18 +6,18 @@ A Laravel-based web application that connects youth with educational opportuniti
 
 EduBridge facilitates the interaction between three main user types:
 - **Youth** - Students and learners seeking opportunities
-- **Organizations** - Providers of educational opportunities
+- **Organizations** - Providers of educational opportunities  
 - **Admins** - Platform administrators who verify organizations
 
 ## ✨ Features
 
-- ✅ Role-based authentication (Admin, Organization, Youth)
-- ✅ Organization opportunity posting and management
-- ✅ Admin verification system for organizations
-- ✅ Youth application system with status tracking
-- ✅ Profile management for all user types
-- ✅ Responsive UI with Tailwind CSS
-- ⚠️ Certificate generation (partially implemented)
+- ✅ **Role-based authentication** (Admin, Organization, Youth)
+- ✅ **Organization opportunity posting** and management
+- ✅ **Admin verification system** for organizations
+- ✅ **Youth application system** with status tracking
+- ✅ **Profile management** for all user types
+- ✅ **Responsive UI** with Tailwind CSS
+- ⚠️ **Certificate generation** (partially implemented)
 
 ## 🚀 Quick Start
 
